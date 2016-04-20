@@ -10,7 +10,9 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public  class TestFileVisitor extends SimpleFileVisitor<Path> {
-
+	long filecount = 0;
+	long dircount  = 0;
+	
     // Print information about
     // each type of file.
     @Override
@@ -19,12 +21,13 @@ public  class TestFileVisitor extends SimpleFileVisitor<Path> {
         if (attr.isSymbolicLink()) {
             System.out.format("Symbolic link: %s ", file);
         } else if (attr.isRegularFile()) {
-            System.out.format("Regular file: %s ", file);
+            //System.out.format("Regular file: %s ", file);
+            this.filecount++;
         } else {
             System.out.format("Other: %s ", file);
         }
         
-        System.out.println("(" + attr.size() + "bytes)");
+        //System.out.println("(" + attr.size() + " bytes)");
         return CONTINUE;
     }
 
@@ -32,6 +35,8 @@ public  class TestFileVisitor extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
         System.out.format("Directory: %s%n", dir);
+        this.dircount++;
+        System.out.println("Dircount " + this.dircount + " Filecount " + this.filecount);
         return CONTINUE;
     }
 
